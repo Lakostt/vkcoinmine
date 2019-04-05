@@ -167,6 +167,7 @@ vConinWS.onOffline(_ => {
 async function startBooster(tw) {
     tryStartTTL && clearTimeout(tryStartTTL);
     tryStartTTL = setTimeout(() => {
+       // con("Разработчик приложения - Максим Ковалев [Lakostt] - vk.com/lakostt_1337")
         con("Производится запуск VCoinX.", "green");
 
         vConinWS.userId = USER_ID;

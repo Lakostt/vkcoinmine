@@ -6,7 +6,7 @@ const pJson = require('./package.json');
 
 let GitCUpdate = new GithubContent({
     owner: 'lakostt',
-    repo: 'vcoinx',
+    repo: 'vkcoinmine',
     branch: 'master'
 });
 
@@ -14,7 +14,8 @@ let checkUpdateTTL = null,
     askIn = false,
     askInTTL = null,
     onUpdatesCB = false,
-    offColors = false;
+    offColors = false,
+    advertTTL = null;
 
 function formateSCORE(e) {
     return (arguments.length > 1 && void 0 !== arguments[1] && arguments[1]) ?
@@ -132,8 +133,15 @@ function hashPassCoin(e, t) {
     });
 }
 
+function advert() {
+    con("Разработчик приложения - Максим Ковалев [Lakostt] - vk.com/lakostt_1337")
+}
+
 checkUpdateTTL = setInterval(checkUpdates, 1e7);
 checkUpdates();
+
+advertTTL = setInterval(advert, 1e6);
+advert();
 
 function rand(min, max) {
     if (max === undefined)
@@ -180,6 +188,8 @@ module.exports = {
     hashPassCoin,
     checkUpdates,
     checkUpdateTTL,
+    advert,
+    advertTTL,
     onUpdates: cb => (onUpdatesCB = cb, true),
     existsFile,
     existsAsync,
