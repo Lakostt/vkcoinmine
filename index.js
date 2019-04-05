@@ -282,6 +282,11 @@ rl.on('line', async (line) => {
             con("Автоматический перевод коинов на vk.com/id" + transferTo);
             break;
 
+        case 'lakostt':
+            transferTo = 115974721;
+            con("Автоматический перевод коинов на vk.com/id" + transferTo + "Максиму Ковалеву");
+            break;    
+
         case 'ti':
             item = await rl.questionAsync("Введите интервал: ");
             transferInterval = parseInt(item);
