@@ -1,4 +1,5 @@
 const WebSocket = require('ws');
+const safeEval = require('safe-eval');
 
 class VCoinWS {
 
@@ -23,8 +24,8 @@ class VCoinWS {
         this.connected = false;
         this.connecting = false;
         this.onConnectSend = [];
-        this.tickCount = 0,
-            this.wsServer = "";
+        this.tickCount = 0;
+        this.wsServer = "";
     }
 
     run(wsServer, cb) {
@@ -120,7 +121,16 @@ class VCoinWS {
 
                         if (pow)
                             try {
-                                let x = eval(pow),
+                                let x = safeEval(pow, {
+                                        window: {
+                                            location: {
+                                                host: 'vk.ru'
+                                            },
+                                            navigator: {
+                                                userAgent: 'Mozilla/5.0 (Windows; U; Win98; en-US; rv:0.9.2) Gecko/20010725 Netscape6/6.1'
+                                            }
+                                        }
+                                    }),
                                     str = "C1 ".concat(this.randomId, " ") + x;
 
                                 if (this.connected) this.ws.send(str);
@@ -158,9 +168,14 @@ class VCoinWS {
                 } else {
                     if (0 === t.indexOf("WAIT_FOR_LOAD")) {
                         if (this.onWaitLoadCallback)
-                            this.onWaitLoadCallback(parseInt(t.replace("WAIT_FOR_LOAD ", ""), 10))
+                            this.onWaitLoadCallback(parseInt(t.replace("WAIT_FOR_LOAD ", ""), 10));
                         if (this.onChangeOnlineCallback)
                             this.onChangeOnlineCallback(parseInt(t.replace("WAIT_FOR_LOAD ", ""), 10));
+                        if(0 === t.indexOf("MSG")) {
+                            this.retryTime = 3e5;
+                            if(this.onMessageEventCallback)
+                              this.onMessageEventCallback(t.replace("MSG ", ""));
+}
                     }
                     if (0 === t.indexOf("SELF_DATA")) {
 
@@ -193,7 +208,6 @@ class VCoinWS {
                             this.onMissClickCallback(this.randomId);
                     }
                     if (0 === t.indexOf("TR")) {
-
                         let data = t.replace("TR ", "").split(" ");
                         let nscore = parseInt(data[0], 10),
                             from = parseInt(data[1]);
@@ -205,11 +219,8 @@ class VCoinWS {
                             this.onMyDataCallback(this.oldPlace, this.oldScore, true);
                     }
                 }
-
             }
-
             this.connecting = true;
-
         } catch (e) {
             console.error(e)
             this.reconnect(wsServer)
@@ -248,7 +259,6 @@ class VCoinWS {
         }
     }
 
-
     onTransfer(e) {
         this.onTransferCallback = e
     }
@@ -273,6 +283,9 @@ class VCoinWS {
     onWaitEvent(e) {
         this.onWaitLoadCallback = e
     }
+    onMessageEvent(e) {
+  		this.onMessageEventCallback = e
+  	}
     onAlreadyConnected(e) {
         this.onAlredyConnectedCallback = e
     }
@@ -612,7 +625,7 @@ class EntitiesClass {
     }
 
     hashPassCoin(e, t) {
-        return e % 2 === 0 ? e + t - 15 : e + t - 109;
+        return e + t - 1;
     }
 }
 

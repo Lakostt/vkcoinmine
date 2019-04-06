@@ -2,20 +2,18 @@ const fs = require('fs'),
     colors = require('colors/safe'),
     ReadLine = require('readline'),
     GithubContent = require('github-content');
+
 const pJson = require('./package.json');
 
 let GitCUpdate = new GithubContent({
-    owner: 'lakostt',
-    repo: 'vkcoinmine',
+    owner: 'cursedseal',
+    repo: 'vcoinx',
     branch: 'master'
 });
 
 let checkUpdateTTL = null,
-    askIn = false,
-    askInTTL = null,
     onUpdatesCB = false,
-    offColors = false,
-    advertTTL = null;
+    offColors = false;
 
 function formateSCORE(e) {
     return (arguments.length > 1 && void 0 !== arguments[1] && arguments[1]) ?
@@ -44,10 +42,8 @@ colors.setTheme({
 });
 
 function con(message, color, colorBG) {
-    if (message === undefined) {
-        console.log("\n")
-        return;
-    }
+    if (message === undefined)
+        return console.log("\n");
     let temp = (!offColors ? colors.dateBG('[' + dateF() + ']') : dateF()) + ": " + ccon(message, color, colorBG, 1);
     console.log(temp);
 }
@@ -61,7 +57,7 @@ function ccon(message, color, colorBG, ret) {
     if (color === true) {
         color = "white";
         colorBG = "Red";
-        temp = !offColors ? colors.white.bgRed("[ОШИБКА]: ") : "[ОШИБКА]: ";
+        temp = !offColors ? colors.yellow.bgRed("[ОШИБКА]: ") : "[ОШИБКА]: ";
     }
     colorBG = "bg" + ((typeof colorBG == "string") ? colorBG : "Black");
     color = (typeof color == "string") ? color : "green";
@@ -92,7 +88,7 @@ function dateF(date) {
 }
 
 let rl = ReadLine.createInterface(process.stdin, process.stdout);
-rl.setPrompt('_> ');
+rl.setPrompt('> ');
 rl.prompt();
 rl.isQst = false;
 rl.questionAsync = (question) => {
@@ -105,15 +101,11 @@ rl.questionAsync = (question) => {
     });
 };
 
+// function hashPassCoin(e, t) {
+//     return e + t - 1;
+// }
 
-function hashPassCoin(e, t) {
-    return (e % 2 === 0) ?
-        (e + t - 15) :
-        (e + t - 109);
-}
-
-
- function checkUpdates() {
+function checkUpdates() {
     GitCUpdate.files(['package.json'], (err, results) => {
         if (err) return;
         results.forEach(file => {
@@ -122,8 +114,8 @@ function hashPassCoin(e, t) {
                 let data = JSON.parse(c);
 
                 let msg = (data.version > pJson.version) ? "Было выпущено новое обновление! -> github.com/cursedseal/VCoinX \t[" + (data.version + "/" + pJson.version) + "]" :
-                    (data.version != pJson.version) ? "Вы используете модифицированную версию, рекомендуем использовать оригинальную! -> github.com/cursedseal/VCoinX \t[" + (data.version + "/" + pJson.version) + "]" :
                     false;
+
                 if (msg) {
                     if (onUpdatesCB) onUpdatesCB(msg);
                     else con(msg, "white", "Red");
@@ -133,15 +125,8 @@ function hashPassCoin(e, t) {
     });
 }
 
-function advert() {
-    con("Разработчик приложения - Максим Ковалев [Lakostt] - vk.com/lakostt_1337")
-}
-
 checkUpdateTTL = setInterval(checkUpdates, 1e7);
 checkUpdates();
-
-advertTTL = setInterval(advert, 1e6);
-advert();
 
 function rand(min, max) {
     if (max === undefined)
@@ -167,16 +152,31 @@ function existsFile(f) {
 }
 
 function existsAsync(path) {
-    return new Promise((resolve, reject) => fs.exists(path, exists => resolve(exists)));
+    return new Promise(resolve => fs.exists(path, exists => resolve(exists)));
 }
 
 function writeFileAsync(path, data) {
-    return new Promise((resolve, reject) => fs.writeFile(path, data, err => resolve(err)));
+    return new Promise(resolve => fs.writeFile(path, data, err => resolve(err)));
 }
 
 function appendFileAsync(path, data) {
-    return new Promise((resolve, reject) => fs.appendFile(path, data, err => resolve(err)));
+    return new Promise(resolve => fs.appendFile(path, data, err => resolve(err)));
 }
+
+function getVersion() {
+    return pJson.version;
+}
+
+function setTerminalTitle(title) {
+    process.stdout.write(
+        String.fromCharCode(27) + "]0;" + title + String.fromCharCode(7)
+    );
+}
+
+function beep() {
+    process.stdout.write('\x07');
+}
+
 
 module.exports = {
     rl,
@@ -185,16 +185,17 @@ module.exports = {
     setColorsM,
     offColors,
     formateSCORE,
-    hashPassCoin,
+    // hashPassCoin,
     checkUpdates,
     checkUpdateTTL,
-    advert,
-    advertTTL,
     onUpdates: cb => (onUpdatesCB = cb, true),
     existsFile,
     existsAsync,
     writeFileAsync,
     appendFileAsync,
+    getVersion,
+    setTerminalTitle,
     infLog,
     rand,
+    beep,
 }
