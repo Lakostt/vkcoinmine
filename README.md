@@ -1,5 +1,5 @@
 # VCoinX
-VCoinX - модификация для [VCoin](https://github.com/xTCry/VCoin), в которой вырезаны пожертвования и комиссии от платежей, а также она имеет несколько своих плюшек.
+VCoinX - модификация для [VCoin], в которой вырезаны пожертвования и комиссии от платежей, а также она имеет несколько своих плюшек.
 
 ## Установка
 Установка у VCoinX гораздо легче, чем у оригинального бота, но скачать [Node.JS версии 8.0.0 или выше](https://nodejs.org/) вам всё же придется.
@@ -13,19 +13,6 @@ VCoinX - модификация для [VCoin](https://github.com/xTCry/VCoin), 
 В принципе, нам достаточно одного токена, но если Вам интересны другие пункты, то пролистайте ниже.
 
 Не забываем сохранять настройки, после того, как сохранили, открываем файл с названием `2. launch` формата `.bat` для Windows и `.sh` для Linux. *Вы великолепны!*
-
-Если у вас возникли какие-либо проблемы, то пишите **в группу ВКонтакте** или попросите совета у *участников беседы*.
-
-[![Группа ВКонтакте](https://img.shields.io/badge/Группа-ВКонтакте-yellow.svg)](https://vk.com/vcoinx)
-
-[![Беседа1 ВКонтакте](https://img.shields.io/badge/Беседа-ВКонтакте-yellow.svg)](https://vk.me/join/AJQ1d8Wp/g5Rju0b0CqwtSbh)
-
-[![Беседа2 ВКонтакте](https://img.shields.io/badge/Беседа-ВКонтакте-yellow.svg)](https://vk.me/join/AJQ1d2MA/A6N8/TxZWWxrfQK)
-
-[![Беседа3 ВКонтакте](https://img.shields.io/badge/Беседа-ВКонтакте-yellow.svg)](https://vk.me/join/AJQ1d5SvLA/9NLWhykOAKrdM)
-
-[![Сервер в Discord](https://img.shields.io/badge/Сервер-Discord-yellow.svg)](https://discord.gg/mpzttuu)
-
 
 ## Параметры конфига
 | Параметр | Описание                                                |
@@ -99,10 +86,10 @@ VCoinX - модификация для [VCoin](https://github.com/xTCry/VCoin), 
 # Автор(ы) бота
 * [xTCry](https://github.com/xTCry) - разработчик оригинального VCoin.
 * [cursedseal](https://github.com/cursedseal) - разработчик модификации VCoinX.
+* [lakostt](https://github.com/Lakostt) - разработчик модификации VCoinX
 
-## Поддержать разработчиков
-[![Донат разработчику оригинальной версии](https://img.shields.io/badge/Донат-VCoin-orange.svg)](https://qiwi.me/xtcry)
-[![Донат разработчику VCoinX](https://img.shields.io/badge/Донат-VCoinX-orange.svg)](https://qiwi.me/vcoinx)
+
+
 
 # RoadMap
 - [x] Переписать ReadMe, сделав его более читабельным и понятным.
